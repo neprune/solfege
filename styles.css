@@ -1,0 +1,461 @@
+/* ---------- Tokens (dark only) ---------- */
+:root {
+  color-scheme: dark;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+
+  --bg: #0f1115;
+  --surface: #1a1d23;
+  --surface-soft: #232730;
+  --text: #ececec;
+  --muted: #9aa3b2;
+  --border: #353a45;
+  --border-strong: #ececec;
+  --track: #2a2f39;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+
+  /* Palette mirrors the circle-of-fifths arrangement; hue rotates around
+   * the wheel so neighbouring degrees have neighbouring colours. */
+  --degree-0:  #4d6dff;  /* Do  (1)  blue        */
+  --degree-1:  #d4ec3a;  /* Ra  (b2) lime        */
+  --degree-2:  #ec3fc7;  /* Re  (2)  magenta     */
+  --degree-3:  #3ddc7d;  /* Me  (b3) green       */
+  --degree-4:  #ff5757;  /* Mi  (3)  red         */
+  --degree-5:  #4ea0ff;  /* Fa  (4)  light blue  */
+  --degree-6:  #f5e23a;  /* Fi  (#4) yellow      */
+  --degree-7:  #a855f7;  /* Sol (5)  purple      */
+  --degree-8:  #6ee862;  /* Le  (b6) light green */
+  --degree-9:  #ff5c9c;  /* La  (6)  pink        */
+  --degree-10: #2dd4e2;  /* Te  (b7) cyan        */
+  --degree-11: #f59e0b;  /* Ti  (7)  orange      */
+
+  /* Site accent matches Do. */
+  --accent: var(--degree-0);
+  accent-color: var(--accent);
+}
+html { scrollbar-color: var(--accent) var(--surface-soft); }
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); }
+main {
+  max-width: 640px;
+  margin: 1rem auto;
+  padding: 0 0.9rem 2rem;
+  display: grid;
+  gap: 1rem;
+}
+h1 {
+  font-size: 1.25rem;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 0.25rem;
+}
+.icon-btn {
+  position: absolute;
+  right: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro {
+  margin: -0.25rem 0 0;
+  text-align: center;
+  max-width: 38rem;
+  align-self: center;
+  line-height: 1.5;
+}
+.intro span[aria-hidden] { font-weight: 700; color: var(--text); }
+.intro .hint, .hint {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.degrees-hint {
+  margin: 0.25rem 0 0;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Inline SVG icons (Lucide, ISC license) inside buttons. */
+.icon { width: 1.05rem; height: 1.05rem; flex: none; stroke: currentColor; }
+.icon-btn .icon { width: 1.15rem; height: 1.15rem; }
+.icon-text { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+/* ---------- Form controls ---------- */
+input, select, button { font: inherit; color: inherit; }
+input[type="number"], select {
+  padding: 0.32rem 0.48rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+input[type="number"] { width: 4.2rem; }
+button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 999px;
+  padding: 0.36rem 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms;
+}
+button:hover:not(:disabled) { background: var(--surface-soft); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button.primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+button.primary:hover:not(:disabled) { filter: brightness(1.15); }
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+label { font-weight: 600; font-size: 0.85rem; }
+.muted { color: var(--muted); font-size: 0.78rem; }
+
+/* ---------- Card / section ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+.card h2 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0;
+  font-weight: 700;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.row.center { justify-content: center; }
+.field { display: inline-flex; align-items: center; gap: 0.4rem; }
+.field-stack { display: grid; gap: 0.5rem; }
+.field-stack .field-row { display: flex; align-items: center; gap: 0.55rem; }
+.field-stack input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); }
+.field-stack .value { min-width: 3.2rem; text-align: right; font-variant-numeric: tabular-nums; }
+.field-stack > .field-row > label:first-child { min-width: 4.5rem; }
+
+/* ---------- Segmented control ----------
+ * Used for choosing among a small set of discrete values (tonic, note count).
+ */
+.segmented {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px;
+  width: 100%;
+}
+.segmented button {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.3rem 0.2rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  min-width: 0;
+  transition: background 120ms, color 120ms;
+}
+.segmented button:hover { color: var(--text); background: var(--surface); }
+.segmented button[aria-checked="true"] {
+  background: var(--accent);
+  color: white;
+}
+.field-row.stacked { flex-direction: column; align-items: stretch; gap: 0.35rem; }
+.field-row.stacked > label { color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ---------- Vocal range (dual slider) ----------
+ * Layout: thumb labels sit in their own row above the slider track so they
+ * are never obscured by the thumbs themselves.
+ */
+.range {
+  display: grid;
+  gap: 0.35rem;
+}
+.range-track {
+  position: relative;
+  /* Top space (1.4rem) reserved for the thumb labels; bottom space holds
+     the slider track + thumbs. */
+  height: 2.8rem;
+  padding-top: 1.4rem;
+  --range-start: 0%;
+  --range-end: 100%;
+}
+.range-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 50%;
+  transform: translateY(50%);
+  /* Center the track within the lower half (below the labels). */
+  top: auto;
+  margin-bottom: -0.7rem;
+  height: 4px;
+  border-radius: 999px;
+  background:
+    linear-gradient(to right,
+      var(--track) 0%,
+      var(--track) var(--range-start),
+      var(--accent) var(--range-start),
+      var(--accent) var(--range-end),
+      var(--track) var(--range-end),
+      var(--track) 100%);
+}
+.range-track input[type="range"] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.4rem;
+  width: 100%;
+  margin: 0;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+}
+.range-track input[type="range"]::-webkit-slider-thumb,
+.range-track input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  background: var(--surface);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.range-thumb-label {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface);
+  padding: 0 0.2rem;
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ---------- Scale degrees ---------- */
+.scale {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+.scale-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+.scale-presets button {
+  padding: 0.22rem 0.6rem;
+  font-size: 0.78rem;
+}
+/* Circle-of-fifths arrangement of scale degrees. Items are absolutely
+ * positioned around a square container — a colored dot on the outer ring,
+ * with the solfège label nested inward. Click a dot or its label to
+ * toggle that degree on/off. */
+.degrees {
+  position: relative;
+  width: min(20rem, 100%);
+  aspect-ratio: 1;
+  margin: 0.25rem auto;
+}
+.wheel-credit {
+  margin: 0.1rem 0 0;
+  text-align: center;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--muted);
+}
+.wheel-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.wheel-credit a:hover { color: var(--text); }
+.deg-dot,
+.deg-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.deg-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: transparent;
+  transition: background-color 120ms, transform 120ms;
+}
+.deg-dot[aria-pressed="true"] { background: currentColor; }
+.deg-dot:hover:not(:disabled) { transform: translate(-50%, -50%) scale(1.15); background: var(--surface-soft); }
+.deg-dot[aria-pressed="true"]:hover { background: currentColor; filter: brightness(1.1); }
+
+/* Visual feedback when a degree is sounding (during melody playback,
+ * a tap on a melody note, or a press-and-hold preview). */
+.deg-dot.playing,
+.deg-dot.flash {
+  background: currentColor;
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 35%, transparent),
+              0 0 14px 2px currentColor;
+  transform: translate(-50%, -50%) scale(1.4);
+}
+.deg-label.playing,
+.deg-label.flash {
+  opacity: 1;
+  text-shadow: 0 0 10px currentColor;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+.deg-dot, .deg-label { transition: transform 120ms ease-out, opacity 120ms, background-color 120ms, box-shadow 160ms; }
+.deg-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  opacity: 0.45;
+  transition: opacity 120ms;
+}
+.deg-label[aria-pressed="true"] { opacity: 1; }
+.deg-label:hover { opacity: 0.85; }
+.deg-dot:focus-visible,
+.deg-label:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- Melody display ---------- */
+.melody {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 1.55;
+  min-height: 2.2em;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+}
+.melody .interval, .melody .note { white-space: nowrap; }
+.melody.placeholder { font-size: 0.95rem; font-weight: 400; font-style: italic; color: var(--muted); }
+.melody .tonic-note { color: var(--degree-0); }
+.melody .interval { color: var(--muted); margin: 0 0.05em; font-weight: 500; }
+.melody .note {
+  display: inline-block;
+  padding: 0 0.18em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 80ms linear, transform 80ms ease-out;
+}
+.melody .note:hover { background: var(--surface-soft); }
+.melody .note { touch-action: manipulation; }
+.melody .note:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.melody .note.playing {
+  background: var(--surface-soft);
+  box-shadow: inset 0 -2px 0 currentColor;
+  transform: translateY(-1px);
+}
+
+/* ---------- Degree colors (shared by checkbox labels & melody output) ---------- */
+.deg-do  { color: var(--degree-0); }
+.deg-ra  { color: var(--degree-1); }
+.deg-re  { color: var(--degree-2); }
+.deg-me  { color: var(--degree-3); }
+.deg-mi  { color: var(--degree-4); }
+.deg-fa  { color: var(--degree-5); }
+.deg-fi  { color: var(--degree-6); }
+.deg-sol { color: var(--degree-7); }
+.deg-le  { color: var(--degree-8); }
+.deg-la  { color: var(--degree-9); }
+.deg-te  { color: var(--degree-10); }
+.deg-ti  { color: var(--degree-11); }
+
+/* ---------- Playback ---------- */
+.playback { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+#status { width: 100%; text-align: center; min-height: 1em; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  main { margin: 0.5rem auto; padding: 0 0.6rem 1.2rem; gap: 0.75rem; }
+  .card { padding: 0.75rem 0.85rem; gap: 0.7rem; }
+  .melody { font-size: 1.2rem; padding: 0.75rem; }
+  .row { gap: 0.4rem 0.7rem; }
+  .playback button { flex: 1 1 auto; }
+}
+
+.site-footer {
+  max-width: 40rem;
+  margin: 2rem auto 1.5rem;
+  padding: 1rem 1.25rem 0;
+  border-top: 1px solid var(--border, rgba(127,127,127,0.25));
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.site-footer p { margin: 0.35rem 0; }
+.site-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.site-footer a:hover,
+.site-footer a:focus-visible { color: var(--text); }
+
+.deg-num {
+  display: inline-block;
+  margin-left: 0.18em;
+  font-size: 0.72em;
+  font-weight: 500;
+  vertical-align: sub;
+  opacity: 0.8;
+  letter-spacing: 0;
+  font-feature-settings: "sups" 0;
+}
+
+.gh-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+.gh-link:hover,
+.gh-link:focus-visible { color: var(--text); background: var(--surface, rgba(127,127,127,0.08)); }
+.gh-link .icon { width: 1.05em; height: 1.05em; }

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solfège Trainer</title>
+  <meta name="description" content="Generate random solfège melodies for sight-singing and ear-training practice." />
+  <meta name="theme-color" content="#0f1115" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header class="app-header">
+      <h1>Solfège Trainer</h1>
+    </header>
+
+    <p class="intro muted">
+      Generate a melody, sing it, then play it back to verify.
+      Arrows show melodic direction
+      (↑ up, ↓ down);
+      doubled arrows mean move an octave in the same direction
+      <span class="hint">Tip: tap a note to hear it, hold to sustain.</span>
+    </p>
+
+    <!-- Melody output -->
+    <section>
+      <div id="melody" class="melody placeholder">Generate a melody to begin</div>
+    </section>
+
+    <!-- Playback controls -->
+    <section class="playback">
+      <button id="generate" class="primary icon-text" type="button"></button>
+      <button id="playMelody" class="icon-text" type="button" disabled></button>
+      <button id="playTonic" class="icon-text" type="button" disabled></button>
+      <button id="toggleDrone" class="icon-text" type="button" disabled></button>
+      <span id="status" class="muted" role="status" aria-live="polite"></span>
+    </section>
+
+    <!-- Scale degrees -->
+    <section class="card">
+      <h2>Scale degrees</h2>
+      <div class="scale">
+        <div class="scale-presets">
+          <button id="setIonian" type="button">Ionian (major)</button>
+          <button id="setAeolian" type="button">Aeolian (minor)</button>
+        </div>
+        <div class="degrees" id="degrees"></div>
+        <p class="hint degrees-hint">Tap to toggle · hold to preview the pitch</p>
+        <p class="wheel-credit">
+          Arrangement and colours inspired by
+          <a href="https://www.youtube.com/watch?v=AARDtj6wL3U"
+             target="_blank" rel="noopener noreferrer">Max Konyi</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Key & range -->
+    <section class="card">
+      <h2>Key &amp; range</h2>
+      <div class="field-stack">
+        <div class="field-row stacked">
+          <label>Tonic</label>
+          <div class="segmented" id="keySegmented" role="radiogroup" aria-label="Tonic"></div>
+        </div>
+        <div class="field-row stacked">
+          <label>Notes</label>
+          <div class="segmented" id="numNotesSegmented" role="radiogroup" aria-label="Number of notes"></div>
+        </div>
+      </div>
+      <div class="range">
+        <label>Vocal range</label>
+        <div class="range-track" id="rangeTrack">
+          <span id="rangeLowLabel" class="range-thumb-label"></span>
+          <span id="rangeHighLabel" class="range-thumb-label"></span>
+          <input id="rangeLow" type="range" aria-label="Lowest note" />
+          <input id="rangeHigh" type="range" aria-label="Highest note" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Sound -->
+    <section class="card">
+      <h2>Sound</h2>
+      <div class="field-stack">
+        <div class="field-row">
+          <label for="bpm">Tempo</label>
+          <input id="bpm" type="range" min="20" max="300" value="100" />
+          <span class="muted value" id="bpmLabel"></span>
+        </div>
+        <div class="field-row">
+          <label for="volume">Melody</label>
+          <input id="volume" type="range" min="10" max="100" value="80" />
+          <span class="muted value" id="volumeLabel"></span>
+        </div>
+        <div class="field-row">
+          <label for="droneVolume">Drone</label>
+          <input id="droneVolume" type="range" min="10" max="100" value="65" />
+          <span class="muted value" id="droneVolumeLabel"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Icons by <a href="https://lucide.dev/" target="_blank" rel="noopener noreferrer">Lucide</a>
+      (<a href="https://lucide.dev/license" target="_blank" rel="noopener noreferrer">ISC License</a>).
+      Solfège wheel inspired by
+      <a href="https://www.youtube.com/watch?v=AARDtj6wL3U" target="_blank" rel="noopener noreferrer">Max Konyi</a>.
+    </p>
+    <p>
+      Built with the Web Audio API. Open source — no tracking, no accounts.
+    </p>
+    <p>
+      <a class="gh-link"
+         href="https://github.com/neprune/solfege"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="View source on GitHub">
+        <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+        <span>Source on GitHub</span>
+      </a>
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
