@@ -246,10 +246,24 @@ label { font-weight: 600; font-size: 0.85rem; }
   appearance: none;
   background: none;
 }
-.range-track input[type="range"]::-webkit-slider-thumb,
-.range-track input[type="range"]::-moz-range-thumb {
+/* Vendor-prefixed thumb pseudo-elements must be in separate rules — if
+ * grouped with a comma, browsers drop the entire rule when they don't
+ * recognise one of the selectors (e.g. Chrome ignoring -moz-range-thumb),
+ * which leaves the thumbs unstyled and non-interactive. */
+.range-track input[type="range"]::-webkit-slider-thumb {
   pointer-events: auto;
   -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  background: var(--surface);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+.range-track input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
   width: 18px;
   height: 18px;
   border-radius: 50%;
